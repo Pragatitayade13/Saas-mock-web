@@ -1,0 +1,82 @@
+[
+  {
+    "id": "USR-1001",
+    "name": "Demo Administrator",
+    "email": "admin@nexora.demo",
+    "role": "Administrator",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+    "status": "Active",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2026-08-01T10:00:00Z"
+  },
+  {
+    "id": "USR-1002",
+    "name": "Demo Manager",
+    "email": "manager@nexora.demo",
+    "role": "Manager",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+    "status": "Active",
+    "createdAt": "2025-01-15T00:00:00Z",
+    "updatedAt": "2026-07-20T14:30:00Z"
+  },
+  {
+    "id": "USR-1003",
+    "name": "Demo Viewer",
+    "email": "viewer@nexora.demo",
+    "role": "Viewer",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150",
+    "status": "Active",
+    "createdAt": "2025-03-10T00:00:00Z",
+    "updatedAt": "2026-06-12T16:00:00Z"
+  },
+  {
+    "id": "USR-5001",
+    "name": "Pragati Verma",
+    "email": "pragati@nexora.io",
+    "role": "Administrator",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+    "status": "Active",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2026-08-01T10:00:00Z"
+  },
+  {
+    "id": "USR-5002",
+    "name": "Alexander Wright",
+    "email": "alex@nexora.io",
+    "role": "Manager",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+    "status": "Active",
+    "createdAt": "2025-01-15T00:00:00Z",
+    "updatedAt": "2026-07-20T14:30:00Z"
+  },
+  {
+    "id": "USR-5003",
+    "name": "Sophia Martinez",
+    "email": "sophia@nexora.io",
+    "role": "Manager",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+    "status": "Active",
+    "createdAt": "2025-02-01T00:00:00Z",
+    "updatedAt": "2026-08-05T09:15:00Z"
+  },
+  {
+    "id": "USR-5004",
+    "name": "Liam Gallagher",
+    "email": "liam@nexora.io",
+    "role": "Viewer",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150",
+    "status": "Active",
+    "createdAt": "2025-03-10T00:00:00Z",
+    "updatedAt": "2026-06-12T16:00:00Z"
+  },
+  {
+    "id": "USR-5005",
+    "name": "Emily Chen",
+    "email": "emily@nexora.io",
+    "role": "Viewer",
+    "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150",
+    "status": "Inactive",
+    "createdAt": "2025-04-01T00:00:00Z",
+    "updatedAt": "2026-05-01T11:20:00Z"
+  }
+]

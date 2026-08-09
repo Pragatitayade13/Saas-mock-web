@@ -1,0 +1,22 @@
+[
+  { "id": "NOT-4001", "userId": "USR-5001", "type": "Customer", "title": "New enterprise customer registered", "message": "Sarah Jenkins (Acme Corp) registered an Enterprise plan account.", "read": false, "createdAt": "2026-08-08T10:15:00Z" },
+  { "id": "NOT-4002", "userId": "USR-5001", "type": "Subscription", "title": "Subscription upgraded", "message": "Hyperion Systems upgraded plan from Professional to Enterprise.", "read": false, "createdAt": "2026-08-08T09:40:00Z" },
+  { "id": "NOT-4003", "userId": "USR-5001", "type": "Payment", "title": "Payment received", "message": "Received $2,400.00 payment from Acme Corp (TXN-3001).", "read": true, "createdAt": "2026-08-08T09:00:00Z" },
+  { "id": "NOT-4004", "userId": "USR-5001", "type": "Report", "title": "Monthly revenue report generated", "message": "Executive revenue summary for July 2026 is ready for download.", "read": true, "createdAt": "2026-08-07T16:00:00Z" },
+  { "id": "NOT-4005", "userId": "USR-5002", "type": "Payment", "title": "Payment failure alert", "message": "Payment failed for Nakatomi Trading (TXN-3012).", "read": false, "createdAt": "2026-08-07T14:30:00Z" },
+  { "id": "NOT-4006", "userId": "USR-5002", "type": "Customer", "title": "Trial subscription expiring", "message": "Marcus Thorne (Nexus Labs) trial expires in 3 days.", "read": false, "createdAt": "2026-08-07T11:20:00Z" },
+  { "id": "NOT-4007", "userId": "USR-5003", "type": "System", "title": "System maintenance complete", "message": "Scheduled database buffer optimization completed successfully.", "read": true, "createdAt": "2026-08-06T23:00:00Z" },
+  { "id": "NOT-4008", "userId": "USR-5001", "type": "Subscription", "title": "Subscription cancelled", "message": "CyberDyne LLC cancelled their Professional plan subscription.", "read": true, "createdAt": "2026-08-06T15:10:00Z" },
+  { "id": "NOT-4009", "userId": "USR-5003", "type": "Payment", "title": "Refund processed", "message": "Refund of $99.00 issued to Pulse Media (TXN-3021).", "read": true, "createdAt": "2026-08-05T18:45:00Z" },
+  { "id": "NOT-4010", "userId": "USR-5001", "type": "Customer", "title": "New trial sign-up", "message": "Hannah Abbott (Beacon Health) signed up for a trial.", "read": false, "createdAt": "2026-08-05T12:00:00Z" },
+  { "id": "NOT-4011", "userId": "USR-5002", "type": "Payment", "title": "High value payment received", "message": "Received $2,400.00 wire transfer from Crescent Logistics.", "read": true, "createdAt": "2026-08-04T16:30:00Z" },
+  { "id": "NOT-4012", "userId": "USR-5004", "type": "System", "title": "Security audit log updated", "message": "Weekly security scan finished with 0 critical vulnerabilities.", "read": true, "createdAt": "2026-08-04T08:00:00Z" },
+  { "id": "NOT-4013", "userId": "USR-5001", "type": "Subscription", "title": "New enterprise trial", "message": "Catwalk Digital initiated a 14-day Professional trial.", "read": false, "createdAt": "2026-08-03T19:20:00Z" },
+  { "id": "NOT-4014", "userId": "USR-5002", "type": "Customer", "title": "Customer profile updated", "message": "Yuki Tanaka updated billing location to Tokyo, Japan.", "read": true, "createdAt": "2026-08-03T10:15:00Z" },
+  { "id": "NOT-4015", "userId": "USR-5001", "type": "Report", "title": "ARR Target achieved", "message": "Nexora reached $80,000 ARR target for Q3 ahead of schedule.", "read": true, "createdAt": "2026-08-02T17:00:00Z" },
+  { "id": "NOT-4016", "userId": "USR-5003", "type": "Payment", "title": "Payment pending", "message": "Payment of $2,400.00 from Vortex Dynamics is pending clearing.", "read": false, "createdAt": "2026-08-02T11:00:00Z" },
+  { "id": "NOT-4017", "userId": "USR-5001", "type": "Subscription", "title": "Subscription renewed", "message": "Starlight Media renewed Professional plan for another month.", "read": true, "createdAt": "2026-08-01T14:20:00Z" },
+  { "id": "NOT-4018", "userId": "USR-5005", "type": "Customer", "title": "Account reactivated", "message": "Nordic Pay reactivated Enterprise subscription.", "read": true, "createdAt": "2026-07-31T09:30:00Z" },
+  { "id": "NOT-4019", "userId": "USR-5001", "type": "System", "title": "Backup state synchronized", "message": "In-memory state snapshot verified successfully.", "read": true, "createdAt": "2026-07-30T22:00:00Z" },
+  { "id": "NOT-4020", "userId": "USR-5002", "type": "Payment", "title": "Payment method added", "message": "RedHood Defense updated default payment method to Visa *4242.", "read": true, "createdAt": "2026-07-30T15:40:00Z" }
+]
