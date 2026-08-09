@@ -98,16 +98,14 @@ export const SubscriptionsPage: React.FC = () => {
       setMeta(res.meta);
 
       // Fetch related customer details for avatars/names
-      if (res.data.length > 0) {
-        const custRes = await fetchCustomers({ limit: 100 });
-        const map: Record<string, Customer> = {};
-        custRes.data.forEach((c) => {
-          map[c.id] = c;
-        });
-        setCustomersMap(map);
-      }
+      const custRes = await fetchCustomers({ limit: 100 });
+      const map: Record<string, Customer> = {};
+      custRes.data.forEach((c) => {
+        map[c.id] = c;
+      });
+      setCustomersMap(map);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to load subscriptions.');
+      setError(err instanceof Error ? err.message : 'Failed to load subscription items.');
     } finally {
       setIsLoading(false);
     }
@@ -117,36 +115,23 @@ export const SubscriptionsPage: React.FC = () => {
     loadSubscriptions();
   }, [loadSubscriptions]);
 
-  // CSV Export Handler
+  // Export CSV Handler
   const handleExportCSV = () => {
     if (subscriptions.length === 0) return;
 
-    const headers = [
-      'Subscription ID',
-      'Customer ID',
-      'Customer Name',
-      'Customer Email',
-      'Plan',
-      'Status',
-      'Amount',
-      'Billing Cycle',
-      'Start Date',
-      'Next Billing Date',
-    ];
-
-    const rows = subscriptions.map((sub) => {
-      const cust = customersMap[sub.customerId];
+    const headers = ['Subscription ID', 'Customer ID', 'Plan', 'Status', 'Amount', 'Billing Cycle', 'Next Billing Date', 'Created At'];
+    const rows = subscriptions.map((s) => {
+      const c = customersMap[s.customerId];
+      const customerName = c ? c.name : s.customerId;
       return [
-        `"${sub.id}"`,
-        `"${sub.customerId}"`,
-        `"${cust?.name || ''}"`,
-        `"${cust?.email || ''}"`,
-        `"${sub.plan}"`,
-        `"${sub.status}"`,
-        `"${sub.amount}"`,
-        `"${sub.billingCycle}"`,
-        `"${new Date(sub.startDate).toLocaleDateString()}"`,
-        `"${new Date(sub.nextBillingDate).toLocaleDateString()}"`,
+        `"${s.id}"`,
+        `"${customerName.replace(/"/g, '""')}"`,
+        `"${s.plan}"`,
+        `"${s.status}"`,
+        `"${s.amount}"`,
+        `"${s.billingCycle}"`,
+        `"${s.nextBillingDate}"`,
+        `"${s.createdAt}"`,
       ].join(',');
     });
 
@@ -183,34 +168,30 @@ export const SubscriptionsPage: React.FC = () => {
 
   return (
     <AppShell>
-      <div className="space-y-6">
-        {/* Premium 3D Subscriptions Growth Hero Banner */}
-        <Card variant="glass" className="relative overflow-hidden border-white/[0.1] bg-gradient-to-r from-[#111419]/90 via-[#171A20]/80 to-[#1D2128]/90">
+      <div className="space-y-6 text-left">
+        {/* Subscriptions Growth Hero Banner */}
+        <Card variant="glass" className="relative overflow-hidden border-slate-200/90 dark:border-white/[0.1] bg-gradient-to-r from-purple-500/10 via-slate-100/90 to-indigo-500/10 dark:from-[#111419]/90 dark:via-[#171A20]/80 dark:to-[#1D2128]/90">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-[#22D3EE]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 sm:p-8">
-            <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30">
-                <CreditCard className="w-3.5 h-3.5 text-[#22D3EE]" />
+            <div className="space-y-3 max-w-2xl text-left">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30">
+                <CreditCard className="w-4 h-4 text-[#22D3EE]" />
                 <span>Subscription Lifecycle & Recurring Revenue Growth</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F7F8FA] tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#F7F8FA] tracking-tight font-heading italic">
                 Subscription Lifecycle Management
               </h1>
 
-              <p className="text-xs sm:text-sm text-[#A5ACB8] leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A5ACB8] leading-relaxed font-medium">
                 Manage customer recurring plans, upgrades, billing cycles, trial transitions, status changes, and MRR growth.
               </p>
             </div>
 
-            <div className="w-full lg:w-80 h-44 rounded-2xl border border-white/[0.08] overflow-hidden shrink-0 shadow-2xl group">
-              <img
-                src="/subscriptions_3d_growth.png"
-                alt="3D SaaS Subscriptions Revenue Growth Visual"
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105"
-              />
+            <div className="w-full lg:w-80 h-44 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B0D10]/40 overflow-hidden shrink-0 shadow-xl group flex items-center justify-center">
+              <CreditCard className="w-20 h-20 text-[#8B5CF6] opacity-80 group-hover:scale-110 transition-transform duration-500" />
             </div>
           </div>
         </Card>
@@ -220,10 +201,10 @@ export const SubscriptionsPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <Button
               variant="secondary"
-              size="sm"
+              size="md"
               onClick={handleExportCSV}
               disabled={subscriptions.length === 0}
-              leftIcon={<Download className="w-4 h-4" />}
+              leftIcon={<Download className="w-4 h-4 text-[#22D3EE]" />}
             >
               Export CSV
             </Button>
@@ -232,7 +213,7 @@ export const SubscriptionsPage: React.FC = () => {
           {!isViewer && (
             <Button
               variant="primary"
-              size="sm"
+              size="md"
               onClick={() => setIsCreateModalOpen(true)}
               leftIcon={<Plus className="w-4 h-4" />}
             >
@@ -242,7 +223,7 @@ export const SubscriptionsPage: React.FC = () => {
         </div>
 
         {/* Search, Filter Drawer Toggle & Sort Controls */}
-        <Card className="p-4 space-y-4">
+        <Card className="p-4 sm:p-5 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             {/* Search Input */}
             <div className="relative flex-1">
@@ -250,12 +231,12 @@ export const SubscriptionsPage: React.FC = () => {
                 placeholder="Search by customer name, email, or subscription ID..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                leftIcon={<Search className="w-4 h-4 text-[#71717A]" />}
+                leftIcon={<Search className="w-4 h-4 text-slate-400 dark:text-[#71717A]" />}
               />
               {search && (
                 <button
                   onClick={() => setSearch('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#71717A] hover:text-[#A1A1AA]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-[#71717A] dark:hover:text-[#A1A1AA]"
                 >
                   Clear
                 </button>
@@ -263,17 +244,17 @@ export const SubscriptionsPage: React.FC = () => {
             </div>
 
             {/* Filter Toggle & Sort Selectors */}
-            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
               <Button
                 variant={isFilterOpen ? 'primary' : 'secondary'}
-                size="sm"
+                size="md"
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
                 leftIcon={<Filter className="w-4 h-4" />}
               >
                 Filters {(selectedPlan !== 'all' || selectedStatus !== 'all' || selectedCycle !== 'all') && '• Active'}
               </Button>
 
-              <div className="flex items-center gap-1 bg-[#12151C] p-1 rounded-xl border border-[#272C36]">
+              <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#12151C] p-1.5 rounded-xl border border-slate-300 dark:border-[#272C36]">
                 <Select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
@@ -284,14 +265,14 @@ export const SubscriptionsPage: React.FC = () => {
                     { label: 'Next Billing', value: 'nextBillingDate' },
                     { label: 'Customer Name', value: 'customerName' },
                   ]}
-                  className="border-none bg-transparent text-xs py-1"
+                  className="border-none bg-transparent text-xs sm:text-sm py-1.5 font-bold"
                 />
                 <button
                   onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                  className="p-1.5 rounded-lg text-[#A1A1AA] hover:text-white hover:bg-[#181C25] transition-colors"
+                  className="p-2 rounded-lg text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#181C25] transition-colors"
                   title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
                 >
-                  <ArrowUpDown className="w-3.5 h-3.5" />
+                  <ArrowUpDown className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -299,9 +280,9 @@ export const SubscriptionsPage: React.FC = () => {
 
           {/* Collapsible Filter Panel */}
           {isFilterOpen && (
-            <div className="pt-4 border-t border-[#272C36] grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in duration-200">
+            <div className="pt-4 border-t border-slate-200 dark:border-[#272C36] grid grid-cols-1 sm:grid-cols-3 gap-4 animate-in fade-in duration-200">
               <div>
-                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1.5">Plan Tier</label>
+                <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA] mb-1.5">Plan Tier</label>
                 <Select
                   value={selectedPlan}
                   onChange={(e) => { setSelectedPlan(e.target.value); setPage(1); }}
@@ -316,7 +297,7 @@ export const SubscriptionsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1.5">Status</label>
+                <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA] mb-1.5">Status</label>
                 <Select
                   value={selectedStatus}
                   onChange={(e) => { setSelectedStatus(e.target.value); setPage(1); }}
@@ -332,7 +313,7 @@ export const SubscriptionsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1.5">Billing Cycle</label>
+                <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA] mb-1.5">Billing Cycle</label>
                 <Select
                   value={selectedCycle}
                   onChange={(e) => { setSelectedCycle(e.target.value); setPage(1); }}
@@ -351,12 +332,12 @@ export const SubscriptionsPage: React.FC = () => {
         {isLoading ? (
           <Card className="p-12 flex flex-col items-center justify-center text-center">
             <Loader2 className="w-8 h-8 text-[#8B5CF6] animate-spin mb-3" />
-            <p className="text-xs text-[#A1A1AA] font-medium">Loading subscription data...</p>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A1A1AA] font-semibold">Loading subscription data...</p>
           </Card>
         ) : error ? (
-          <Card className="p-8 bg-rose-500/10 border-rose-500/20 text-rose-300 text-center space-y-3">
-            <AlertCircle className="w-8 h-8 text-rose-400 mx-auto" />
-            <p className="text-sm font-semibold">{error}</p>
+          <Card className="p-8 bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-300 text-center space-y-3">
+            <AlertCircle className="w-8 h-8 text-rose-500 mx-auto" />
+            <p className="text-sm font-bold">{error}</p>
             <Button variant="secondary" size="sm" onClick={loadSubscriptions}>
               Retry Loading
             </Button>
@@ -366,8 +347,8 @@ export const SubscriptionsPage: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 flex items-center justify-center text-[#8B5CF6] mb-4">
               <CreditCard className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-[#F8FAFC]">No subscriptions found</h3>
-            <p className="text-xs text-[#A1A1AA] max-w-sm mt-1 mb-6">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F8FAFC]">No subscriptions found</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-[#A1A1AA] max-w-sm mt-1 mb-6">
               {debouncedSearch || selectedPlan !== 'all' || selectedStatus !== 'all'
                 ? 'No subscriptions match your search parameters or active filters.'
                 : 'Get started by creating a new subscription plan for a customer.'}
@@ -381,10 +362,10 @@ export const SubscriptionsPage: React.FC = () => {
         ) : (
           <>
             {/* Desktop Table View (>= 768px) */}
-            <div className="hidden md:block overflow-hidden rounded-2xl border border-[#272C36] bg-[#12151C] shadow-2xl">
-              <table className="w-full text-left border-collapse text-xs">
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-slate-200 dark:border-[#272C36] bg-white dark:bg-[#12151C] shadow-xl">
+              <table className="w-full text-left border-collapse text-xs sm:text-sm">
                 <thead>
-                  <tr className="border-b border-[#272C36] bg-[#181C25]/60 text-[#A1A1AA] font-semibold uppercase tracking-wider text-[10px]">
+                  <tr className="border-b border-slate-200 dark:border-[#272C36] bg-slate-100/80 dark:bg-[#181C25]/60 text-slate-700 dark:text-[#A1A1AA] font-bold uppercase tracking-wider text-xs">
                     <th className="py-3.5 px-4">Customer</th>
                     <th className="py-3.5 px-4">Plan</th>
                     <th className="py-3.5 px-4">Amount</th>
@@ -394,11 +375,11 @@ export const SubscriptionsPage: React.FC = () => {
                     <th className="py-3.5 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#272C36]/50 font-normal">
+                <tbody className="divide-y divide-slate-200 dark:divide-[#272C36]/50 font-normal">
                   {subscriptions.map((sub) => {
                     const customer = customersMap[sub.customerId];
                     return (
-                      <tr key={sub.id} className="hover:bg-[#181C25]/40 transition-colors group">
+                      <tr key={sub.id} className="hover:bg-slate-50 dark:hover:bg-[#181C25]/40 transition-colors group">
                         {/* Customer Info */}
                         <td className="py-3.5 px-4">
                           <Link to={`/subscriptions/${sub.id}`} className="flex items-center gap-3 group-hover:text-[#8B5CF6]">
@@ -406,10 +387,10 @@ export const SubscriptionsPage: React.FC = () => {
                               {customer?.name?.charAt(0) || 'C'}
                             </div>
                             <div className="min-w-0">
-                              <div className="font-bold text-[#F8FAFC] group-hover:text-[#8B5CF6] transition-colors truncate">
+                              <div className="font-bold text-slate-900 dark:text-[#F8FAFC] group-hover:text-[#8B5CF6] transition-colors truncate">
                                 {customer?.name || sub.customerId}
                               </div>
-                              <div className="text-[11px] text-[#71717A] truncate">{customer?.company || customer?.email}</div>
+                              <div className="text-xs text-slate-500 dark:text-[#71717A] truncate">{customer?.company || customer?.email}</div>
                             </div>
                           </Link>
                         </td>
@@ -422,12 +403,12 @@ export const SubscriptionsPage: React.FC = () => {
                         </td>
 
                         {/* Amount */}
-                        <td className="py-3.5 px-4 font-mono font-bold text-[#F8FAFC]">
-                          ${sub.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        <td className="py-3.5 px-4 font-mono font-bold text-slate-900 dark:text-[#F8FAFC]">
+                          ₹{sub.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                         </td>
 
                         {/* Billing Cycle */}
-                        <td className="py-3.5 px-4 text-[#A1A1AA]">
+                        <td className="py-3.5 px-4 text-slate-600 dark:text-[#A1A1AA]">
                           {sub.billingCycle}
                         </td>
 
@@ -439,7 +420,7 @@ export const SubscriptionsPage: React.FC = () => {
                         </td>
 
                         {/* Next Billing Date */}
-                        <td className="py-3.5 px-4 text-[#A1A1AA] font-mono text-[11px]">
+                        <td className="py-3.5 px-4 text-slate-600 dark:text-[#A1A1AA] font-mono text-xs">
                           {new Date(sub.nextBillingDate).toLocaleDateString()}
                         </td>
 
@@ -468,7 +449,7 @@ export const SubscriptionsPage: React.FC = () => {
                                   <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="px-2 text-rose-400 hover:text-rose-300"
+                                    className="px-2 text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300"
                                     onClick={() => setCancelSub(sub)}
                                   >
                                     Cancel
@@ -497,46 +478,28 @@ export const SubscriptionsPage: React.FC = () => {
                           {customer?.name?.charAt(0) || 'C'}
                         </div>
                         <div>
-                          <h4 className="font-bold text-xs text-[#F8FAFC]">{customer?.name || sub.customerId}</h4>
-                          <p className="text-[10px] text-[#71717A]">{customer?.company}</p>
+                          <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-[#F8FAFC]">{customer?.name || sub.customerId}</h4>
+                          <p className="text-[11px] text-slate-500 dark:text-[#71717A]">{customer?.company}</p>
                         </div>
                       </div>
-                      <Badge status={getStatusBadgeStatus(sub.status)}>
-                        {sub.status}
-                      </Badge>
+                      <Badge status={getStatusBadgeStatus(sub.status)}>{sub.status}</Badge>
                     </div>
 
-                    <div className="pt-2 border-t border-[#272C36] flex items-center justify-between text-xs">
+                    <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-200 dark:border-[#272C36]">
                       <div>
-                        <span className="text-[10px] text-[#71717A] block">Plan & Amount</span>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                          <Badge status={getPlanBadgeStatus(sub.plan)}>{sub.plan}</Badge>
-                          <span className="font-mono font-bold text-[#F8FAFC]">${sub.amount}/{sub.billingCycle === 'Yearly' ? 'yr' : 'mo'}</span>
-                        </div>
+                        <span className="text-[10px] text-slate-400 dark:text-[#707784] uppercase font-bold block">Plan</span>
+                        <Badge status={getPlanBadgeStatus(sub.plan)}>{sub.plan}</Badge>
                       </div>
-
-                      <div className="text-right">
-                        <span className="text-[10px] text-[#71717A] block">Next Billing</span>
-                        <span className="font-mono text-[11px] text-[#A1A1AA]">{new Date(sub.nextBillingDate).toLocaleDateString()}</span>
+                      <div>
+                        <span className="text-[10px] text-slate-400 dark:text-[#707784] uppercase font-bold block">Amount</span>
+                        <span className="font-mono font-bold text-slate-900 dark:text-[#F8FAFC]">₹{sub.amount.toLocaleString()}</span>
                       </div>
                     </div>
 
-                    <div className="pt-2 flex items-center justify-end gap-2">
-                      <Link to={`/subscriptions/${sub.id}`}>
-                        <Button variant="ghost" size="sm" className="text-xs py-1">
-                          View Details
-                        </Button>
-                      </Link>
-                      {!isViewer && sub.status !== 'Cancelled' && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-xs text-rose-400 py-1"
-                          onClick={() => setCancelSub(sub)}
-                        >
-                          Cancel
-                        </Button>
-                      )}
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-[#272C36]">
+                      <Button variant="secondary" size="sm" onClick={() => navigate(`/subscriptions/${sub.id}`)}>
+                        View Details
+                      </Button>
                     </div>
                   </Card>
                 );
@@ -545,31 +508,14 @@ export const SubscriptionsPage: React.FC = () => {
 
             {/* Pagination Controls */}
             {meta.totalPages > 1 && (
-              <div className="flex items-center justify-between p-4 rounded-xl bg-[#12151C] border border-[#272C36] text-xs text-[#A1A1AA]">
-                <div>
-                  Showing {((meta.page - 1) * meta.limit) + 1}–{Math.min(meta.page * meta.limit, meta.total)} of {meta.total} subscriptions
-                </div>
-
+              <div className="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-[#12151C] border border-slate-200 dark:border-[#272C36] text-xs sm:text-sm text-slate-600 dark:text-[#A1A1AA]">
+                <div>Showing {((meta.page - 1) * meta.limit) + 1}–{Math.min(meta.page * meta.limit, meta.total)} of {meta.total} subscriptions</div>
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    disabled={meta.page <= 1}
-                    onClick={() => setPage(meta.page - 1)}
-                    leftIcon={<ChevronLeft className="w-4 h-4" />}
-                  >
+                  <Button variant="secondary" size="sm" disabled={meta.page <= 1} onClick={() => setPage(meta.page - 1)} leftIcon={<ChevronLeft className="w-4 h-4" />}>
                     Previous
                   </Button>
-                  <span className="px-3 py-1 rounded-lg bg-[#181C25] font-mono font-bold text-[#F8FAFC]">
-                    {meta.page} / {meta.totalPages}
-                  </span>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    disabled={meta.page >= meta.totalPages}
-                    onClick={() => setPage(meta.page + 1)}
-                    rightIcon={<ChevronRight className="w-4 h-4" />}
-                  >
+                  <span className="px-3 py-1 bg-slate-100 dark:bg-[#181C25] font-mono font-bold text-slate-900 dark:text-[#F8FAFC] rounded-lg">{meta.page} / {meta.totalPages}</span>
+                  <Button variant="secondary" size="sm" disabled={meta.page >= meta.totalPages} onClick={() => setPage(meta.page + 1)} rightIcon={<ChevronRight className="w-4 h-4" />}>
                     Next
                   </Button>
                 </div>
@@ -588,15 +534,15 @@ export const SubscriptionsPage: React.FC = () => {
 
       <ChangePlanModal
         isOpen={!!changePlanSub}
-        onClose={() => setChangePlanSub(null)}
         subscription={changePlanSub}
+        onClose={() => setChangePlanSub(null)}
         onSuccess={loadSubscriptions}
       />
 
       <CancelSubscriptionModal
         isOpen={!!cancelSub}
-        onClose={() => setCancelSub(null)}
         subscription={cancelSub}
+        onClose={() => setCancelSub(null)}
         onSuccess={loadSubscriptions}
       />
     </AppShell>

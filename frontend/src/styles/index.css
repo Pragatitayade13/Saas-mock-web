@@ -99,9 +99,9 @@ html.light ::-webkit-scrollbar-thumb {
 }
 
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05) !important;
 }
 
 .glass-header {
@@ -112,11 +112,11 @@ html.light .glass-card {
 }
 
 html.light .glass-header {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #E2E8F0;
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
 }
 
-/* Comprehensive Global Light Theme CSS Overrides */
+/* Global Light Theme Overrides for All Pages (Subscriptions, Transactions, Reports, Audit, Settings, Notifications) */
 html.light body,
 html.light main {
   background-color: #F8FAFC !important;
@@ -134,7 +134,8 @@ html.light [class*="bg-[#0B0D10]"],
 html.light [class*="bg-[#12151C]"],
 html.light [class*="bg-[#181C25]"],
 html.light [class*="bg-[#171A20]"],
-html.light [class*="bg-[#1D2128]"] {
+html.light [class*="bg-[#1D2128]"],
+html.light [class*="bg-[#1F242D]"] {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
 }
@@ -157,6 +158,31 @@ html.light [class*="text-[#A1A1AA]"] {
 html.light [class*="text-[#707784]"],
 html.light [class*="text-[#71717A]"] {
   color: #64748B !important;
+}
+
+/* Light Mode Card Gradients & Background Overrides */
+html.light .bg-gradient-to-r,
+html.light .bg-gradient-to-br,
+html.light .bg-gradient-to-tr {
+  background-image: none !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Light Mode Table Headers & Striping */
+html.light table th {
+  background-color: #F1F5F9 !important;
+  color: #475569 !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light table td {
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+html.light table tr:hover {
+  background-color: #F8FAFC !important;
 }
 
 /* Smooth Interactive Card Hover */
