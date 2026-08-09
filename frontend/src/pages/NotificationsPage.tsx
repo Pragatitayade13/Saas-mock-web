@@ -1,45 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppShell } from '../layouts/AppShell';
 import { Card } from '../components/ui/Card';
-import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { Bell, CheckCheck, CreditCard, UserPlus, AlertCircle, FileText } from 'lucide-react';
+import { Bell, CheckCheck } from 'lucide-react';
+import {
+  NotificationItem,
+  getStoredNotifications,
+  markAllNotificationsAsRead,
+} from '../services/api/notifications';
 
 export const NotificationsPage: React.FC = () => {
-  const allNotifications = [
-    { id: '1', title: 'Payment received', description: 'Acme Corp completed $2,400 subscription payout.', time: '5 minutes ago', type: 'payment', read: false },
-    { id: '2', title: 'New customer registered', description: 'Starlight Media upgraded to Enterprise Tier.', time: '24 minutes ago', type: 'user', read: false },
-    { id: '3', title: 'Subscription expiring', description: 'Nexus Labs plan auto-renews in 3 days.', time: '1 hour ago', type: 'alert', read: false },
-    { id: '4', title: 'Financial report ready', description: 'Monthly MRR audit statement compiled.', time: '2 hours ago', type: 'report', read: true },
-    { id: '5', title: 'System update completed', description: 'Gin Backend microservice v2.1 successfully deployed.', time: '5 hours ago', type: 'alert', read: true },
-  ];
+  const [notifications, setNotifications] = useState<NotificationItem[]>(getStoredNotifications());
+
+  useEffect(() => {
+    const sync = () => {
+      setNotifications(getStoredNotifications());
+    };
+    window.addEventListener('nexora-notifications-updated', sync);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.removeEventListener('nexora-notifications-updated', sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
+
+  const handleMarkAllRead = () => {
+    const updated = markAllNotificationsAsRead();
+    setNotifications(updated);
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <AppShell>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-6 text-left">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-extrabold text-[#F8FAFC]">Notifications & Webhook Logs</h1>
-            <p className="text-xs text-[#A1A1AA]">Real-time system events, alerts, and audit notifications.</p>
+            <h1 className="text-xl font-extrabold text-slate-900 dark:text-[#F8FAFC]">Notifications & Webhook Logs</h1>
+            <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Real-time system events, alerts, and audit notifications.</p>
           </div>
-          <Button variant="secondary" size="sm" leftIcon={<CheckCheck className="w-4 h-4" />}>
-            Mark All as Read
-          </Button>
+          {unreadCount > 0 && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleMarkAllRead}
+              leftIcon={<CheckCheck className="w-4 h-4 text-[#8B5CF6]" />}
+            >
+              Mark All as Read ({unreadCount})
+            </Button>
+          )}
         </div>
 
         <div className="space-y-3">
-          {allNotifications.map((n) => (
-            <Card key={n.id} variant="standard" className={`p-4 flex items-center justify-between ${!n.read ? 'border-l-4 border-l-[#8B5CF6]' : ''}`}>
+          {notifications.map((n) => (
+            <Card key={n.id} variant="standard" className={`p-4 flex items-center justify-between ${!n.read ? 'border-l-4 border-l-[#8B5CF6] bg-purple-50/30 dark:bg-[#8B5CF6]/5' : ''}`}>
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-[#181C25] border border-[#272C36] text-[#8B5CF6]">
+                <div className="p-2 rounded-xl bg-slate-100 dark:bg-[#181C25] border border-slate-200 dark:border-[#272C36] text-[#8B5CF6]">
                   <Bell className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-[#F8FAFC]">{n.title}</h4>
-                  <p className="text-xs text-[#A1A1AA]">{n.description}</p>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-[#F8FAFC]">{n.title}</h4>
+                  <p className="text-xs text-slate-600 dark:text-[#A1A1AA]">{n.description}</p>
                 </div>
               </div>
-              <span className="text-[11px] text-[#71717A]">{n.time}</span>
+              <span className="text-[11px] text-slate-500 dark:text-[#71717A]">{n.time}</span>
             </Card>
           ))}
         </div>

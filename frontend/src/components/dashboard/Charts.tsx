@@ -16,6 +16,23 @@ import {
 import { Card } from '../ui/Card';
 import { RevenueChartPoint, SubscriptionMixItem, CustomerGrowthPoint } from '../../services/api/dashboard';
 
+const defaultDailyRevenueData: RevenueChartPoint[] = [
+  { name: 'Mon', revenue: 12400, target: 10000 },
+  { name: 'Tue', revenue: 15200, target: 12000 },
+  { name: 'Wed', revenue: 18900, target: 15000 },
+  { name: 'Thu', revenue: 14100, target: 13000 },
+  { name: 'Fri', revenue: 22500, target: 18000 },
+  { name: 'Sat', revenue: 9800, target: 8000 },
+  { name: 'Sun', revenue: 11350, target: 10000 },
+];
+
+const defaultWeeklyRevenueData: RevenueChartPoint[] = [
+  { name: 'Week 1', revenue: 18500, target: 17500 },
+  { name: 'Week 2', revenue: 21000, target: 19000 },
+  { name: 'Week 3', revenue: 22400, target: 20500 },
+  { name: 'Week 4', revenue: 22350, target: 21000 },
+];
+
 const defaultMonthlyRevenueData: RevenueChartPoint[] = [
   { name: 'Jan', revenue: 42000, target: 40000 },
   { name: 'Feb', revenue: 51000, target: 45000 },
@@ -24,13 +41,6 @@ const defaultMonthlyRevenueData: RevenueChartPoint[] = [
   { name: 'May', revenue: 72000, target: 68000 },
   { name: 'Jun', revenue: 79000, target: 75000 },
   { name: 'Jul', revenue: 84250, target: 80000 },
-];
-
-const defaultWeeklyRevenueData: RevenueChartPoint[] = [
-  { name: 'Week 1', revenue: 18500, target: 17500 },
-  { name: 'Week 2', revenue: 21000, target: 19000 },
-  { name: 'Week 3', revenue: 22400, target: 20500 },
-  { name: 'Week 4', revenue: 22350, target: 21000 },
 ];
 
 const defaultSubscriptionMixData: SubscriptionMixItem[] = [
@@ -51,45 +61,68 @@ const defaultUserGrowthData: CustomerGrowthPoint[] = [
 interface RevenueOverviewChartProps {
   monthlyData?: RevenueChartPoint[];
   weeklyData?: RevenueChartPoint[];
+  dailyData?: RevenueChartPoint[];
 }
 
 export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
   monthlyData = defaultMonthlyRevenueData,
   weeklyData = defaultWeeklyRevenueData,
+  dailyData = defaultDailyRevenueData,
 }) => {
-  const [timeframe, setTimeframe] = useState<'monthly' | 'weekly'>('monthly');
-  const data = timeframe === 'monthly' ? (monthlyData.length ? monthlyData : defaultMonthlyRevenueData) : (weeklyData.length ? weeklyData : defaultWeeklyRevenueData);
+  const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
+
+  const getData = () => {
+    if (timeframe === 'daily') {
+      return dailyData.length ? dailyData : defaultDailyRevenueData;
+    }
+    if (timeframe === 'weekly') {
+      return weeklyData.length ? weeklyData : defaultWeeklyRevenueData;
+    }
+    return monthlyData.length ? monthlyData : defaultMonthlyRevenueData;
+  };
+
+  const data = getData();
 
   return (
-    <Card variant="chart" className="flex flex-col">
+    <Card variant="chart" className="flex flex-col text-left">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC]">Revenue Overview</h3>
-          <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Monthly vs Weekly ARR progression</p>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC]">Revenue Velocity Overview</h3>
+          <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">
+            {timeframe === 'daily' ? 'Daily sales breakdown' : timeframe === 'weekly' ? 'Weekly ARR progression' : 'Monthly ARR progression'}
+          </p>
         </div>
         <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#181C25] p-1 rounded-lg border border-slate-200 dark:border-[#272C36] w-fit">
           <button
-            onClick={() => setTimeframe('monthly')}
-            className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors ${
-              timeframe === 'monthly' ? 'bg-[#8B5CF6] text-white' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
+            onClick={() => setTimeframe('daily')}
+            className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors cursor-pointer ${
+              timeframe === 'daily' ? 'bg-[#8B5CF6] text-white shadow-sm' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            Monthly
+            Daily
           </button>
           <button
             onClick={() => setTimeframe('weekly')}
-            className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors ${
-              timeframe === 'weekly' ? 'bg-[#8B5CF6] text-white' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
+            className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors cursor-pointer ${
+              timeframe === 'weekly' ? 'bg-[#8B5CF6] text-white shadow-sm' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Weekly
+          </button>
+          <button
+            onClick={() => setTimeframe('monthly')}
+            className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors cursor-pointer ${
+              timeframe === 'monthly' ? 'bg-[#8B5CF6] text-white shadow-sm' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Monthly
           </button>
         </div>
       </div>
 
       <div className="h-64 sm:h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart key={timeframe} data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.4} />
@@ -137,7 +170,7 @@ export const SubscriptionMixChart: React.FC<SubscriptionMixChartProps> = ({ data
   const chartData = data.length ? data : defaultSubscriptionMixData;
 
   return (
-    <Card variant="chart" className="flex flex-col">
+    <Card variant="chart" className="flex flex-col text-left">
       <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] mb-1">Subscription Mix</h3>
       <p className="text-xs text-slate-500 dark:text-[#A1A1AA] mb-4">Distribution by active plan tier</p>
 
@@ -190,7 +223,7 @@ export const UserGrowthChart: React.FC<UserGrowthChartProps> = ({ data = default
   const chartData = data.length ? data : defaultUserGrowthData;
 
   return (
-    <Card variant="chart" className="flex flex-col">
+    <Card variant="chart" className="flex flex-col text-left">
       <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] mb-1">Customer Growth</h3>
       <p className="text-xs text-slate-500 dark:text-[#A1A1AA] mb-4">Cumulative active customer onboarding</p>
 

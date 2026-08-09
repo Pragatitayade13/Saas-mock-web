@@ -25,19 +25,6 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-[1600px] w-full mx-auto animate-in fade-in duration-200">
           {children}
         </main>
-
-        {/* Footer */}
-        <footer className="py-4 px-6 border-t border-slate-200 dark:border-[#272C36] bg-white dark:bg-[#0B0D12] text-xs text-slate-500 dark:text-[#71717A] flex flex-col sm:flex-row items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-900 dark:text-[#F8FAFC]">Nexora SaaS Analytics Engine</span>
-            <span>&copy; 2026 Nexora Inc.</span>
-          </div>
-          <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-[#A5ACB8]">
-            <span>Vertical Slice 10 System</span>
-            <span>•</span>
-            <span>Go + Gin + React + Vite</span>
-          </div>
-        </footer>
       </div>
     </div>
   );

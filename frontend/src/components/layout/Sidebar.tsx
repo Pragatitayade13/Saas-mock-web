@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -19,6 +19,7 @@ import {
 import { DemoIndicator } from './DemoIndicator';
 import { useAuth } from '../../hooks/useAuth';
 import { UserRole } from '../../types/api';
+import { getUnreadNotificationCount } from '../../services/api/notifications';
 
 interface NavGroup {
   title: string;
@@ -29,37 +30,6 @@ interface NavGroup {
     badge?: string;
   }[];
 }
-
-const navGroups: NavGroup[] = [
-  {
-    title: 'Overview',
-    items: [{ name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard }],
-  },
-  {
-    title: 'Workspace',
-    items: [
-      { name: 'Customers', path: '/customers', icon: Users },
-      { name: 'Subscriptions', path: '/subscriptions', icon: CreditCard },
-      { name: 'Transactions', path: '/transactions', icon: Receipt },
-    ],
-  },
-  {
-    title: 'Insights',
-    items: [
-      { name: 'Analytics', path: '/analytics', icon: LineChart },
-      { name: 'Reports', path: '/reports', icon: FileText },
-      { name: 'Activity', path: '/activity', icon: Activity },
-    ],
-  },
-  {
-    title: 'System',
-    items: [
-      { name: 'Audit Log', path: '/audit', icon: ShieldCheck },
-      { name: 'Notifications', path: '/notifications', icon: Bell, badge: '3' },
-      { name: 'Settings', path: '/settings', icon: Settings },
-    ],
-  },
-];
 
 export interface SidebarProps {
   isMobileOpen: boolean;
@@ -77,6 +47,50 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { user } = useAuth();
   const userRole: UserRole = user?.role || 'Administrator';
+  const [unreadCount, setUnreadCount] = useState<number>(getUnreadNotificationCount());
+
+  useEffect(() => {
+    const updateCount = () => {
+      setUnreadCount(getUnreadNotificationCount());
+    };
+    window.addEventListener('nexora-notifications-updated', updateCount);
+    window.addEventListener('storage', updateCount);
+    return () => {
+      window.removeEventListener('nexora-notifications-updated', updateCount);
+      window.removeEventListener('storage', updateCount);
+    };
+  }, []);
+
+  const navGroups: NavGroup[] = [
+    {
+      title: 'Overview',
+      items: [{ name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard }],
+    },
+    {
+      title: 'Workspace',
+      items: [
+        { name: 'Customers', path: '/customers', icon: Users },
+        { name: 'Subscriptions', path: '/subscriptions', icon: CreditCard },
+        { name: 'Transactions', path: '/transactions', icon: Receipt },
+      ],
+    },
+    {
+      title: 'Insights',
+      items: [
+        { name: 'Analytics', path: '/analytics', icon: LineChart },
+        { name: 'Reports', path: '/reports', icon: FileText },
+        { name: 'Activity', path: '/activity', icon: Activity },
+      ],
+    },
+    {
+      title: 'System',
+      items: [
+        { name: 'Audit Log', path: '/audit', icon: ShieldCheck },
+        { name: 'Notifications', path: '/notifications', icon: Bell, badge: unreadCount > 0 ? String(unreadCount) : undefined },
+        { name: 'Settings', path: '/settings', icon: Settings },
+      ],
+    },
+  ];
 
   // Filter RBAC navigation: Viewers don't see Settings write actions or Admin only items
   const filteredNavGroups = navGroups.map((group) => {
