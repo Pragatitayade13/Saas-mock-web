@@ -23,6 +23,7 @@ export const PrivacyPolicyPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const video = videoRef.current;
     if (!video) return;
 
