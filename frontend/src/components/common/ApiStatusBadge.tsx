@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHealth } from '../../hooks/useHealth';
+import { Sparkles } from 'lucide-react';
 
 export const ApiStatusBadge: React.FC = () => {
   const { status } = useHealth(12000);
 
   if (status === 'checking') {
     return (
-      <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#181C25] border border-[#272C36] text-[11px] font-medium text-[#A1A1AA]">
-        <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
+      <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
         <span>API Syncing...</span>
       </div>
     );
@@ -15,17 +16,17 @@ export const ApiStatusBadge: React.FC = () => {
 
   if (status === 'connected') {
     return (
-      <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 text-[11px] font-medium text-[#22C55E]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
+      <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         <span>API ● Connected</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#EF4444]/10 border border-[#EF4444]/20 text-[11px] font-medium text-[#EF4444]">
-      <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
-      <span>API ● Offline</span>
+    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[11px] font-bold text-purple-700 dark:text-purple-300">
+      <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
+      <span>Demo Mode (In-Memory)</span>
     </div>
   );
 };

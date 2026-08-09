@@ -15,11 +15,11 @@ export interface TransactionRow {
 }
 
 const mockTransactions: TransactionRow[] = [
-  { id: 'TXN-3001', customer: 'Acme Corp', plan: 'Enterprise', amount: '$2,400.00', status: 'completed', date: 'Aug 08, 2026' },
-  { id: 'TXN-3002', customer: 'Starlight Media', plan: 'Professional', amount: '$499.00', status: 'completed', date: 'Aug 08, 2026' },
-  { id: 'TXN-3003', customer: 'Vortex Dynamics', plan: 'Enterprise', amount: '$2,400.00', status: 'pending', date: 'Aug 07, 2026' },
-  { id: 'TXN-3004', customer: 'Nexus Labs', plan: 'Starter', amount: '$99.00', status: 'active', date: 'Aug 07, 2026' },
-  { id: 'TXN-3005', customer: 'CyberDyne LLC', plan: 'Professional', amount: '$499.00', status: 'failed', date: 'Aug 06, 2026' },
+  { id: 'TXN-3001', customer: 'Acme Corp', plan: 'Enterprise', amount: '₹12,499.00', status: 'completed', date: 'Aug 08, 2026' },
+  { id: 'TXN-3002', customer: 'Starlight Media', plan: 'Professional', amount: '₹4,999.00', status: 'completed', date: 'Aug 08, 2026' },
+  { id: 'TXN-3003', customer: 'Vortex Dynamics', plan: 'Enterprise', amount: '₹12,499.00', status: 'pending', date: 'Aug 07, 2026' },
+  { id: 'TXN-3004', customer: 'Nexus Labs', plan: 'Starter', amount: '₹1,999.00', status: 'active', date: 'Aug 07, 2026' },
+  { id: 'TXN-3005', customer: 'CyberDyne LLC', plan: 'Professional', amount: '₹4,999.00', status: 'failed', date: 'Aug 06, 2026' },
 ];
 
 interface RecentTransactionsTableProps {
@@ -33,7 +33,7 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
         customer: t.customer,
         plan: t.plan,
         amount: t.amount,
-        status: (t.status as BadgeStatus) || 'completed',
+        status: (t.status.toLowerCase() as BadgeStatus) || 'completed',
         date: t.date,
       }))
     : mockTransactions;
@@ -47,58 +47,57 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
     {
       key: 'customer',
       header: 'Customer',
-      render: (row) => <span className="font-semibold text-[#F8FAFC]">{row.customer}</span>,
+      render: (row) => <span className="font-semibold text-slate-900 dark:text-[#F8FAFC]">{row.customer}</span>,
     },
     {
       key: 'plan',
       header: 'Plan Tier',
-      render: (row) => <span className="text-[#A1A1AA]">{row.plan}</span>,
+      render: (row) => <span className="text-slate-600 dark:text-[#A1A1AA]">{row.plan}</span>,
     },
     {
       key: 'amount',
       header: 'Amount',
       align: 'right',
-      render: (row) => <span className="font-mono font-bold text-[#F8FAFC]">{row.amount}</span>,
+      render: (row) => <span className="font-bold text-slate-900 dark:text-[#F8FAFC]">{row.amount}</span>,
     },
     {
       key: 'status',
       header: 'Status',
       align: 'center',
-      render: (row) => <Badge status={row.status}>{row.status}</Badge>,
+      render: (row) => <Badge status={row.status} />,
     },
     {
       key: 'date',
       header: 'Date',
-      render: (row) => <span className="text-[#71717A] text-[11px]">{row.date}</span>,
+      align: 'right',
+      render: (row) => <span className="text-slate-500 dark:text-[#71717A] text-xs">{row.date}</span>,
     },
     {
-      key: 'action',
-      header: 'Action',
+      key: 'actions',
+      header: '',
       align: 'right',
       render: () => (
-        <Button variant="ghost" size="sm" aria-label="Transaction options">
-          <MoreHorizontal className="w-4 h-4 text-[#A1A1AA]" />
+        <Button variant="ghost" size="sm" aria-label="Transaction actions">
+          <MoreHorizontal className="w-4 h-4 text-slate-400 dark:text-[#71717A]" />
         </Button>
       ),
     },
   ];
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between px-1">
+    <div className="space-y-4 text-left">
+      <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-bold text-[#F8FAFC]">Recent Transactions</h3>
-          <p className="text-xs text-[#A1A1AA]">Real-time payment ledger audit</p>
+          <h3 className="text-base font-bold text-slate-900 dark:text-[#F8FAFC]">Recent Transactions</h3>
+          <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Latest financial activity across all customer accounts</p>
         </div>
-        <Button variant="ghost" size="sm">
-          View All Ledger
-        </Button>
       </div>
-
       <Table
         columns={columns}
         data={displayData}
         keyExtractor={(row) => row.id}
+        emptyTitle="No transactions found"
+        emptyDescription="New billing transactions will appear here."
       />
     </div>
   );

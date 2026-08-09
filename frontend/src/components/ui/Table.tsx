@@ -29,11 +29,11 @@ export function Table<T>({
   keyExtractor,
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-[#272C36] bg-[#12151C]">
+    <div className="w-full overflow-hidden rounded-xl border border-slate-200/90 dark:border-[#272C36] bg-white dark:bg-[#12151C] shadow-xs">
       <div className="w-full overflow-x-auto no-scrollbar">
         <table className="w-full text-left text-xs border-collapse min-w-[650px]">
           <thead>
-            <tr className="border-b border-[#272C36] bg-[#181C25]/60 text-[#A1A1AA] uppercase tracking-wider font-semibold">
+            <tr className="border-b border-slate-200/90 dark:border-[#272C36] bg-slate-50 dark:bg-[#181C25]/60 text-slate-500 dark:text-[#A1A1AA] uppercase tracking-wider font-semibold">
               {columns.map((col) => (
                 <th
                   key={col.key}
@@ -46,7 +46,7 @@ export function Table<T>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#272C36] text-[#F8FAFC]">
+          <tbody className="divide-y divide-slate-200/90 dark:divide-[#272C36] text-slate-900 dark:text-[#F8FAFC]">
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
@@ -59,10 +59,10 @@ export function Table<T>({
               ))
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-12 text-center text-[#71717A]">
+                <td colSpan={columns.length} className="px-4 py-12 text-center text-slate-500 dark:text-[#71717A]">
                   <div className="flex flex-col items-center justify-center">
-                    <p className="text-sm font-semibold text-[#F8FAFC]">{emptyTitle}</p>
-                    <p className="text-xs text-[#A1A1AA] mt-1">{emptyDescription}</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-[#F8FAFC]">{emptyTitle}</p>
+                    <p className="text-xs text-slate-500 dark:text-[#A1A1AA] mt-1">{emptyDescription}</p>
                   </div>
                 </td>
               </tr>
@@ -71,7 +71,7 @@ export function Table<T>({
                 <tr
                   key={keyExtractor(row)}
                   onClick={() => onRowClick && onRowClick(row)}
-                  className={`transition-colors hover:bg-[#181C25]/80 ${
+                  className={`transition-colors hover:bg-slate-50 dark:hover:bg-[#181C25]/80 ${
                     onRowClick ? 'cursor-pointer' : ''
                   }`}
                 >

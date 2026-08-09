@@ -64,14 +64,14 @@ export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
     <Card variant="chart" className="flex flex-col">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
         <div>
-          <h3 className="text-sm font-bold text-[#F8FAFC]">Revenue Overview</h3>
-          <p className="text-xs text-[#A1A1AA]">Monthly vs Weekly ARR progression</p>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC]">Revenue Overview</h3>
+          <p className="text-xs text-slate-500 dark:text-[#A1A1AA]">Monthly vs Weekly ARR progression</p>
         </div>
-        <div className="flex items-center gap-1 bg-[#181C25] p-1 rounded-lg border border-[#272C36] w-fit">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#181C25] p-1 rounded-lg border border-slate-200 dark:border-[#272C36] w-fit">
           <button
             onClick={() => setTimeframe('monthly')}
             className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors ${
-              timeframe === 'monthly' ? 'bg-[#8B5CF6] text-white' : 'text-[#A1A1AA] hover:text-white'
+              timeframe === 'monthly' ? 'bg-[#8B5CF6] text-white' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Monthly
@@ -79,7 +79,7 @@ export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
           <button
             onClick={() => setTimeframe('weekly')}
             className={`px-3 py-1 text-[11px] font-semibold rounded-md transition-colors ${
-              timeframe === 'weekly' ? 'bg-[#8B5CF6] text-white' : 'text-[#A1A1AA] hover:text-white'
+              timeframe === 'weekly' ? 'bg-[#8B5CF6] text-white' : 'text-slate-600 dark:text-[#A1A1AA] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Weekly
@@ -96,23 +96,23 @@ export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
                 <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#272C36" vertical={false} />
-            <XAxis dataKey="name" stroke="#71717A" fontSize={11} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" vertical={false} />
+            <XAxis dataKey="name" stroke="#64748B" fontSize={11} tickLine={false} />
             <YAxis
-              stroke="#71717A"
+              stroke="#64748B"
               fontSize={11}
               tickLine={false}
-              tickFormatter={(val) => `$${val >= 1000 ? val / 1000 + 'k' : val}`}
+              tickFormatter={(val) => `₹${val >= 1000 ? val / 1000 + 'k' : val}`}
             />
             <RechartsTooltip
               contentStyle={{
-                backgroundColor: '#181C25',
-                borderColor: '#272C36',
+                backgroundColor: '#1E293B',
+                borderColor: '#334155',
                 borderRadius: '8px',
                 fontSize: '12px',
                 color: '#F8FAFC',
               }}
-              formatter={(value: any) => [`$${Number(value).toLocaleString()}`, 'Revenue']}
+              formatter={(value: any) => [`₹${Number(value).toLocaleString()}`, 'Revenue']}
             />
             <Area
               type="monotone"
@@ -138,12 +138,10 @@ export const SubscriptionMixChart: React.FC<SubscriptionMixChartProps> = ({ data
 
   return (
     <Card variant="chart" className="flex flex-col">
-      <div className="mb-4">
-        <h3 className="text-sm font-bold text-[#F8FAFC]">Subscription Mix</h3>
-        <p className="text-xs text-[#A1A1AA]">Active plan breakdown</p>
-      </div>
+      <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] mb-1">Subscription Mix</h3>
+      <p className="text-xs text-slate-500 dark:text-[#A1A1AA] mb-4">Distribution by active plan tier</p>
 
-      <div className="h-48 w-full flex items-center justify-center">
+      <div className="h-56 w-full relative flex items-center justify-center">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -151,18 +149,18 @@ export const SubscriptionMixChart: React.FC<SubscriptionMixChartProps> = ({ data
               cx="50%"
               cy="50%"
               innerRadius={55}
-              outerRadius={75}
+              outerRadius={80}
               paddingAngle={4}
               dataKey="value"
             >
               {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} stroke="#12151C" strokeWidth={2} />
+                <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
               ))}
             </Pie>
             <RechartsTooltip
               contentStyle={{
-                backgroundColor: '#181C25',
-                borderColor: '#272C36',
+                backgroundColor: '#1E293B',
+                borderColor: '#334155',
                 borderRadius: '8px',
                 fontSize: '12px',
                 color: '#F8FAFC',
@@ -172,14 +170,11 @@ export const SubscriptionMixChart: React.FC<SubscriptionMixChartProps> = ({ data
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-2 space-y-2">
+      <div className="flex items-center justify-center gap-4 mt-2 flex-wrap">
         {chartData.map((item) => (
-          <div key={item.name} className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-              <span className="text-[#A1A1AA]">{item.name}</span>
-            </div>
-            <span className="font-semibold text-[#F8FAFC]">{item.value.toLocaleString()}</span>
+          <div key={item.name} className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-[#A1A1AA]">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+            <span>{item.name} ({item.value})</span>
           </div>
         ))}
       </div>
@@ -196,21 +191,19 @@ export const UserGrowthChart: React.FC<UserGrowthChartProps> = ({ data = default
 
   return (
     <Card variant="chart" className="flex flex-col">
-      <div className="mb-4">
-        <h3 className="text-sm font-bold text-[#F8FAFC]">Customer Growth</h3>
-        <p className="text-xs text-[#A1A1AA]">Cumulative active user count</p>
-      </div>
+      <h3 className="text-sm font-bold text-slate-900 dark:text-[#F8FAFC] mb-1">Customer Growth</h3>
+      <p className="text-xs text-slate-500 dark:text-[#A1A1AA] mb-4">Cumulative active customer onboarding</p>
 
-      <div className="h-48 w-full">
+      <div className="h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#272C36" vertical={false} />
-            <XAxis dataKey="month" stroke="#71717A" fontSize={11} tickLine={false} />
-            <YAxis stroke="#71717A" fontSize={11} tickLine={false} tickFormatter={(val) => `${val}`} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" vertical={false} />
+            <XAxis dataKey="month" stroke="#64748B" fontSize={11} tickLine={false} />
+            <YAxis stroke="#64748B" fontSize={11} tickLine={false} />
             <RechartsTooltip
               contentStyle={{
-                backgroundColor: '#181C25',
-                borderColor: '#272C36',
+                backgroundColor: '#1E293B',
+                borderColor: '#334155',
                 borderRadius: '8px',
                 fontSize: '12px',
                 color: '#F8FAFC',

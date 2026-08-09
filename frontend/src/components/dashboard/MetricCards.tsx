@@ -14,7 +14,6 @@ interface MetricCardsProps {
 }
 
 export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
-  // Helper to parse numeric string values cleanly for AnimatedCounter while keeping exact formatting
   const parseNumericValue = (val?: string): { raw: number; prefix: string; suffix: string; decimals: number } => {
     if (!val) return { raw: 0, prefix: '', suffix: '', decimals: 0 };
     const cleaned = val.replace(/[^0-9.]/g, '');
@@ -36,7 +35,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
       period: metrics?.revenue?.period || 'vs last month',
       icon: DollarSign,
       sparkline: 'M0 20 Q 15 15, 30 18 T 60 8 T 90 4 T 120 12 T 150 2',
-      color: 'from-[#8B5CF6]/20 to-[#8B5CF6]/5 text-[#8B5CF6] border-[#8B5CF6]/30',
+      color: 'from-purple-500/20 to-purple-500/5 text-[#8B5CF6] border-purple-500/30',
       strokeColor: '#8B5CF6',
     },
     {
@@ -48,7 +47,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
       period: metrics?.customers?.period || 'vs last month',
       icon: Users,
       sparkline: 'M0 18 Q 15 12, 30 15 T 60 10 T 90 6 T 120 8 T 150 4',
-      color: 'from-cyan-500/20 to-cyan-500/5 text-cyan-400 border-cyan-500/30',
+      color: 'from-cyan-500/20 to-cyan-500/5 text-cyan-600 dark:text-cyan-400 border-cyan-500/30',
       strokeColor: '#22D3EE',
     },
     {
@@ -60,7 +59,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
       period: metrics?.subscriptions?.period || 'vs last month',
       icon: CreditCard,
       sparkline: 'M0 22 Q 15 16, 30 18 T 60 12 T 90 14 T 120 6 T 150 5',
-      color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-400 border-emerald-500/30',
+      color: 'from-emerald-500/20 to-emerald-500/5 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
       strokeColor: '#22C55E',
     },
     {
@@ -72,7 +71,7 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
       period: metrics?.conversion?.period || 'vs last month',
       icon: TrendingUp,
       sparkline: 'M0 16 Q 15 20, 30 14 T 60 10 T 90 8 T 120 5 T 150 3',
-      color: 'from-purple-500/20 to-purple-500/5 text-purple-300 border-purple-500/30',
+      color: 'from-purple-500/20 to-purple-500/5 text-purple-600 dark:text-purple-300 border-purple-500/30',
       strokeColor: '#A855F7',
     },
   ];
@@ -84,16 +83,16 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
         return (
           <Card key={item.id} variant="metric" className="relative group overflow-hidden">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-[#A5ACB8] uppercase tracking-wider">
+              <span className="text-xs font-bold text-slate-500 dark:text-[#A5ACB8] uppercase tracking-wider">
                 {item.title}
               </span>
-              <div className={`p-2.5 rounded-xl bg-gradient-to-br border ${item.color} shadow-sm transition-transform duration-300 group-hover:scale-110`}>
+              <div className={`p-2.5 rounded-xl bg-gradient-to-br border ${item.color} shadow-xs transition-transform duration-300 group-hover:scale-110`}>
                 <Icon className="w-4 h-4" />
               </div>
             </div>
 
             <div className="flex items-baseline justify-between gap-2 z-10 relative">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#F7F8FA] tracking-tight">
+              <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#F7F8FA] tracking-tight">
                 {item.parsed.raw > 0 ? (
                   <AnimatedCounter
                     value={item.parsed.raw}
@@ -105,15 +104,14 @@ export const MetricCards: React.FC<MetricCardsProps> = ({ metrics }) => {
                   item.valueStr
                 )}
               </span>
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 <ArrowUpRight className="w-3.5 h-3.5" />
                 <span>{item.change}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between mt-3">
-              <p className="text-[11px] text-[#707784]">{item.period}</p>
-              {/* Micro SVG Sparkline */}
+              <p className="text-[11px] text-slate-500 dark:text-[#707784] font-medium">{item.period}</p>
               <svg className="w-20 h-6 overflow-visible opacity-70 group-hover:opacity-100 transition-opacity">
                 <path
                   d={item.sparkline}
