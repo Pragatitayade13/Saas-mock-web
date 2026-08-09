@@ -37,7 +37,7 @@ export const AuditPage: React.FC = () => {
     failedCount: 0,
   });
   const [meta, setMeta] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Filters
@@ -117,10 +117,6 @@ export const AuditPage: React.FC = () => {
               <p className="text-sm sm:text-base text-slate-600 dark:text-[#A5ACB8] leading-relaxed font-medium">
                 Immutable, append-only security event history tracking authentication, authorization, RBAC rejections, and critical state mutations.
               </p>
-            </div>
-
-            <div className="w-full lg:w-72 h-44 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B0D10]/40 overflow-hidden shrink-0 shadow-xl group flex items-center justify-center">
-              <ShieldCheck className="w-20 h-20 text-[#8B5CF6] opacity-80 group-hover:scale-110 transition-transform duration-500" />
             </div>
           </div>
         </Card>

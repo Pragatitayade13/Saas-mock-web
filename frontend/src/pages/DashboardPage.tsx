@@ -85,11 +85,6 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Interactive 3D Visual Hero Component */}
-            <div className="w-full lg:w-72 h-56 rounded-2xl border border-slate-200/90 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B0D10]/40 backdrop-blur-md overflow-hidden shrink-0 shadow-inner flex items-center justify-center">
-              <SaaSDataObject3D />
-            </div>
           </div>
         </Card>
 

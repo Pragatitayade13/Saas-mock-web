@@ -49,7 +49,7 @@ export const SubscriptionsPage: React.FC = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [customersMap, setCustomersMap] = useState<Record<string, Customer>>({});
   const [meta, setMeta] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Filter & Query Controls State
@@ -188,10 +188,6 @@ export const SubscriptionsPage: React.FC = () => {
               <p className="text-sm sm:text-base text-slate-600 dark:text-[#A5ACB8] leading-relaxed font-medium">
                 Manage customer recurring plans, upgrades, billing cycles, trial transitions, status changes, and MRR growth.
               </p>
-            </div>
-
-            <div className="w-full lg:w-80 h-44 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white/70 dark:bg-[#0B0D10]/40 overflow-hidden shrink-0 shadow-xl group flex items-center justify-center">
-              <CreditCard className="w-20 h-20 text-[#8B5CF6] opacity-80 group-hover:scale-110 transition-transform duration-500" />
             </div>
           </div>
         </Card>

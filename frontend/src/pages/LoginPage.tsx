@@ -100,6 +100,8 @@ export const LoginPage: React.FC = () => {
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
   useEffect(() => {
+    document.documentElement.classList.remove('light');
+    document.documentElement.classList.add('dark');
     if (isAuthenticated) {
       navigate('/dashboard', { replace: true });
     }

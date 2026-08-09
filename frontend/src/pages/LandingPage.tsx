@@ -23,8 +23,9 @@ export const LandingPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Landing Page stays strictly in cinematic dark mode
+    // Landing Page stays strictly in cinematic dark mode by default
     document.documentElement.classList.remove('light');
+    document.documentElement.classList.add('dark');
 
     const video = videoRef.current;
     if (!video) return;

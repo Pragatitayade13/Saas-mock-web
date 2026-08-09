@@ -41,6 +41,15 @@ import { Customer, fetchCustomers } from '../services/api/customers';
 import { TransactionFormModal } from '../components/transactions/TransactionFormModal';
 import { RefundTransactionModal } from '../components/transactions/RefundTransactionModal';
 import { useAuth } from '../hooks/useAuth';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+} from 'recharts';
 
 export const TransactionsPage: React.FC = () => {
   const { user } = useAuth();
@@ -62,7 +71,7 @@ export const TransactionsPage: React.FC = () => {
     byPaymentMethod: [],
   });
   const [meta, setMeta] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Filters & Controls State
@@ -330,34 +339,42 @@ export const TransactionsPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Custom SVG Bar/Area Visualization */}
-            <div className="h-44 w-full flex items-end justify-between gap-2 pt-6 pb-2 px-2 bg-slate-50 dark:bg-[#12151C] rounded-xl border border-slate-200 dark:border-[#272C36] overflow-x-auto">
-              {(analytics.daily.length > 0 ? analytics.daily : [
-                { date: 'Aug 1', revenue: 2400 },
-                { date: 'Aug 2', revenue: 3100 },
-                { date: 'Aug 3', revenue: 1800 },
-                { date: 'Aug 4', revenue: 4200 },
-                { date: 'Aug 5', revenue: 5900 },
-                { date: 'Aug 6', revenue: 3800 },
-                { date: 'Aug 7', revenue: 6400 },
-              ]).map((item, idx) => {
-                const maxVal = 7000;
-                const heightPct = Math.min(Math.max((item.revenue / maxVal) * 100, 15), 100);
-                return (
-                  <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 group min-w-[28px]">
-                    <div className="text-[10px] font-mono text-slate-500 dark:text-[#A1A1AA] opacity-0 group-hover:opacity-100 transition-opacity">
-                      ₹{item.revenue}
-                    </div>
-                    <div
-                      className="w-full bg-gradient-to-t from-[#8B5CF6] to-[#22D3EE] rounded-t-md transition-all duration-300 group-hover:brightness-125"
-                      style={{ height: `${heightPct}%` }}
-                    />
-                    <div className="text-[10px] text-slate-400 dark:text-[#71717A] truncate w-full text-center">
-                      {item.date}
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Recharts Bar Visualization */}
+            <div className="h-56 w-full pt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={analytics.daily.length > 0 ? analytics.daily : [
+                    { date: 'Aug 01', revenue: 2400 },
+                    { date: 'Aug 02', revenue: 3100 },
+                    { date: 'Aug 03', revenue: 1800 },
+                    { date: 'Aug 04', revenue: 4200 },
+                    { date: 'Aug 05', revenue: 5900 },
+                    { date: 'Aug 06', revenue: 3800 },
+                    { date: 'Aug 07', revenue: 6400 },
+                  ]}
+                  margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" vertical={false} />
+                  <XAxis dataKey="date" stroke="#64748B" fontSize={12} tickLine={false} />
+                  <YAxis
+                    stroke="#64748B"
+                    fontSize={12}
+                    tickLine={false}
+                    tickFormatter={(val) => `₹${val >= 1000 ? val / 1000 + 'k' : val}`}
+                  />
+                  <RechartsTooltip
+                    contentStyle={{
+                      backgroundColor: '#1E293B',
+                      borderColor: '#334155',
+                      borderRadius: '10px',
+                      fontSize: '13px',
+                      color: '#F8FAFC',
+                    }}
+                    formatter={(val: any) => [`₹${Number(val).toLocaleString()}`, 'Revenue']}
+                  />
+                  <Bar dataKey="revenue" fill="#8B5CF6" radius={[6, 6, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </Card>
 

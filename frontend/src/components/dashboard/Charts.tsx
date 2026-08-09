@@ -137,8 +137,12 @@ export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
           <AreaChart key={timeframe + '-' + (selectedDateRange || '')} data={data} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.35} />
+                <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="targetGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#22D3EE" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#22D3EE" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" vertical={false} />
@@ -166,6 +170,8 @@ export const RevenueOverviewChart: React.FC<RevenueOverviewChartProps> = ({
               strokeWidth={3}
               fillOpacity={1}
               fill="url(#revenueGradient)"
+              dot={false}
+              activeDot={{ r: 5, fill: '#8B5CF6', strokeWidth: 2, stroke: '#fff' }}
             />
           </AreaChart>
         </ResponsiveContainer>

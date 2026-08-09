@@ -56,7 +56,7 @@ export const ReportsPage: React.FC = () => {
     thisMonthCount: 0,
   });
   const [meta, setMeta] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Filters

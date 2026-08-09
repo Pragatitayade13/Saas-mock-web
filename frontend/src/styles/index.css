@@ -160,10 +160,8 @@ html.light [class*="text-[#71717A]"] {
   color: #64748B !important;
 }
 
-/* Light Mode Card Gradients & Background Overrides */
-html.light .bg-gradient-to-r,
-html.light .bg-gradient-to-br,
-html.light .bg-gradient-to-tr {
+/* Light Mode Hero Banner Overrides — scoped only to the page hero card banners */
+html.light .hero-banner-card {
   background-image: none !important;
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
