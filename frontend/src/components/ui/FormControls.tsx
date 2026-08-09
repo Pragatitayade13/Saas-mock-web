@@ -15,15 +15,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || generatedId;
 
     return (
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-1.5 text-left">
         {label && (
-          <label htmlFor={inputId} className="text-xs font-semibold text-[#A1A1AA]">
+          <label htmlFor={inputId} className="text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA]">
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3 text-[#71717A] pointer-events-none flex items-center">
+            <div className="absolute left-3 text-slate-400 dark:text-[#71717A] pointer-events-none flex items-center">
               {leftIcon}
             </div>
           )}
@@ -31,19 +31,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             disabled={disabled}
-            className={`w-full bg-[#12151C] text-[#F8FAFC] placeholder-[#71717A] text-xs sm:text-sm rounded-lg border border-[#272C36] py-2 px-3 focus:outline-none focus:border-[#8B5CF6] focus:ring-1 focus:ring-[#8B5CF6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-              leftIcon ? 'pl-9' : ''
-            } ${rightIcon ? 'pr-9' : ''} ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
+            className={`w-full bg-white dark:bg-[#12151C] text-slate-900 dark:text-[#F8FAFC] placeholder-slate-400 dark:placeholder-[#71717A] text-xs sm:text-sm font-medium rounded-xl border border-slate-300 dark:border-[#272C36] py-2.5 px-3.5 focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-purple-100 dark:focus:ring-[#8B5CF6]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+              leftIcon ? 'pl-10' : ''
+            } ${rightIcon ? 'pr-10' : ''} ${error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-200' : ''} ${className}`}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 text-[#71717A] flex items-center">
+            <div className="absolute right-3 text-slate-400 dark:text-[#71717A] flex items-center">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <span className="text-[11px] text-red-400 font-medium">{error}</span>}
-        {!error && helperText && <span className="text-[11px] text-[#71717A]">{helperText}</span>}
+        {error && <span className="text-xs text-rose-500 font-semibold">{error}</span>}
+        {!error && helperText && <span className="text-xs text-slate-500 dark:text-[#71717A]">{helperText}</span>}
       </div>
     );
   }
@@ -63,9 +63,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const textareaId = id || generatedId;
 
     return (
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-1.5 text-left">
         {label && (
-          <label htmlFor={textareaId} className="text-xs font-semibold text-[#A1A1AA]">
+          <label htmlFor={textareaId} className="text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA]">
             {label}
           </label>
         )}
@@ -73,13 +73,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={textareaId}
           ref={ref}
           disabled={disabled}
-          className={`w-full bg-[#12151C] text-[#F8FAFC] placeholder-[#71717A] text-xs sm:text-sm rounded-lg border border-[#272C36] p-3 focus:outline-none focus:border-[#8B5CF6] focus:ring-1 focus:ring-[#8B5CF6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[90px] ${
-            error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+          className={`w-full bg-white dark:bg-[#12151C] text-slate-900 dark:text-[#F8FAFC] placeholder-slate-400 dark:placeholder-[#71717A] text-xs sm:text-sm font-medium rounded-xl border border-slate-300 dark:border-[#272C36] p-3.5 focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-purple-100 dark:focus:ring-[#8B5CF6]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[100px] ${
+            error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-200' : ''
           } ${className}`}
           {...props}
         />
-        {error && <span className="text-[11px] text-red-400 font-medium">{error}</span>}
-        {!error && helperText && <span className="text-[11px] text-[#71717A]">{helperText}</span>}
+        {error && <span className="text-xs text-rose-500 font-semibold">{error}</span>}
+        {!error && helperText && <span className="text-xs text-slate-500 dark:text-[#71717A]">{helperText}</span>}
       </div>
     );
   }
@@ -100,9 +100,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const selectId = id || generatedId;
 
     return (
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-1.5 text-left">
         {label && (
-          <label htmlFor={selectId} className="text-xs font-semibold text-[#A1A1AA]">
+          <label htmlFor={selectId} className="text-xs sm:text-sm font-bold text-slate-700 dark:text-[#A1A1AA]">
             {label}
           </label>
         )}
@@ -110,19 +110,19 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           id={selectId}
           ref={ref}
           disabled={disabled}
-          className={`w-full bg-[#12151C] text-[#F8FAFC] text-xs sm:text-sm rounded-lg border border-[#272C36] py-2 px-3 focus:outline-none focus:border-[#8B5CF6] focus:ring-1 focus:ring-[#8B5CF6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-            error ? 'border-red-500' : ''
+          className={`w-full bg-white dark:bg-[#12151C] text-slate-900 dark:text-[#F8FAFC] text-xs sm:text-sm font-semibold rounded-xl border border-slate-300 dark:border-[#272C36] py-2.5 px-3.5 focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-purple-100 dark:focus:ring-[#8B5CF6]/20 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+            error ? 'border-rose-500' : ''
           } ${className}`}
           {...props}
         >
           {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-[#12151C] text-[#F8FAFC]">
+            <option key={opt.value} value={opt.value} className="bg-white dark:bg-[#12151C] text-slate-900 dark:text-[#F8FAFC]">
               {opt.label}
             </option>
           ))}
         </select>
-        {error && <span className="text-[11px] text-red-400 font-medium">{error}</span>}
-        {!error && helperText && <span className="text-[11px] text-[#71717A]">{helperText}</span>}
+        {error && <span className="text-xs text-rose-500 font-semibold">{error}</span>}
+        {!error && helperText && <span className="text-xs text-slate-500 dark:text-[#71717A]">{helperText}</span>}
       </div>
     );
   }
@@ -140,16 +140,16 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const checkboxId = id || generatedId;
 
     return (
-      <label htmlFor={checkboxId} className={`inline-flex items-center gap-2 cursor-pointer select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
+      <label htmlFor={checkboxId} className={`inline-flex items-center gap-2.5 cursor-pointer select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
         <input
           id={checkboxId}
           type="checkbox"
           ref={ref}
           disabled={disabled}
-          className={`w-4 h-4 rounded bg-[#12151C] border-[#272C36] text-[#8B5CF6] focus:ring-[#8B5CF6] focus:ring-offset-[#0B0D12] accent-[#8B5CF6] ${className}`}
+          className={`w-4 h-4 rounded bg-white dark:bg-[#12151C] border-slate-300 dark:border-[#272C36] text-[#8B5CF6] focus:ring-[#8B5CF6] accent-[#8B5CF6] ${className}`}
           {...props}
         />
-        {label && <span className="text-xs text-[#F8FAFC] font-medium">{label}</span>}
+        {label && <span className="text-xs sm:text-sm text-slate-900 dark:text-[#F8FAFC] font-semibold">{label}</span>}
       </label>
     );
   }
@@ -173,8 +173,8 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
         aria-checked={checked}
         disabled={disabled}
         onClick={() => !disabled && onChange(!checked)}
-        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:ring-offset-2 focus:ring-offset-[#0B0D12] ${
-          checked ? 'bg-[#8B5CF6]' : 'bg-[#272C36]'
+        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] ${
+          checked ? 'bg-[#8B5CF6]' : 'bg-slate-300 dark:bg-[#272C36]'
         }`}
       >
         <span
@@ -183,7 +183,7 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
           }`}
         />
       </button>
-      {label && <span className="text-xs font-semibold text-[#F8FAFC]">{label}</span>}
+      {label && <span className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-[#F8FAFC]">{label}</span>}
     </label>
   );
 };

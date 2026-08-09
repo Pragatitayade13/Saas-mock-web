@@ -20,14 +20,14 @@
     --danger: #EF4444;
   }
 
-  /* Dashboard Executive Light Theme Foundation */
+  /* Executive Light Theme Tokens */
   html.light {
     --bg-main: #F8FAFC;
     --bg-surface: #FFFFFF;
     --bg-elevated: #F1F5F9;
     --border-main: #E2E8F0;
     --text-primary: #0F172A;
-    --text-secondary: #475569;
+    --text-secondary: #334155;
     --text-muted: #64748B;
   }
 
@@ -35,6 +35,8 @@
     background-color: var(--bg-main);
     color: var(--text-primary);
     font-family: 'Barlow', 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
     overflow-x: hidden;
     min-height: 100vh;
     width: 100%;
@@ -59,27 +61,6 @@
       inset 0 1px 1px rgba(255, 255, 255, 0.15);
     position: relative;
     overflow: hidden;
-  }
-
-  .liquid-glass-strong::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1.4px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(255, 255, 255, 0.2) 20%,
-      rgba(255, 255, 255, 0) 40%,
-      rgba(255, 255, 255, 0) 60%,
-      rgba(255, 255, 255, 0.2) 80%,
-      rgba(255, 255, 255, 0.5) 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
   }
 }
 
@@ -108,10 +89,6 @@ html.light ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
 /* Glassmorphism Surface Utilities */
 .glass-card {
   background: rgba(17, 20, 25, 0.75);
@@ -122,7 +99,7 @@ html.light ::-webkit-scrollbar-thumb {
 }
 
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid #E2E8F0;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
 }
@@ -139,46 +116,46 @@ html.light .glass-header {
   border-bottom: 1px solid #E2E8F0;
 }
 
-/* Dashboard Light Theme Class Overrides */
-html.light aside {
-  background-color: #FFFFFF !important;
-  border-right-color: #E2E8F0 !important;
-}
-
-html.light header {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-bottom-color: #E2E8F0 !important;
-}
-
-html.light .bg-\[\#111419\],
-html.light .bg-\[\#0B0D10\],
-html.light .bg-\[\#12151C\],
-html.light .bg-\[\#181C25\] {
-  background-color: #FFFFFF !important;
-}
-
-html.light .bg-\[\#171A20\],
-html.light .bg-\[\#1F242D\] {
+/* Comprehensive Global Light Theme CSS Overrides */
+html.light body,
+html.light main {
   background-color: #F8FAFC !important;
-}
-
-html.light .border-white\/\[0\.08\],
-html.light .border-white\/\[0\.1\] {
-  border-color: #E2E8F0 !important;
-}
-
-html.light .text-\[\#F7F8FA\],
-html.light .text-\[\#F8FAFC\] {
   color: #0F172A !important;
 }
 
-html.light .text-\[\#A5ACB8\],
-html.light .text-\[\#A1A1AA\] {
-  color: #475569 !important;
+html.light aside,
+html.light header {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
 }
 
-html.light .text-\[\#707784\],
-html.light .text-\[\#71717A\] {
+html.light [class*="bg-[#111419]"],
+html.light [class*="bg-[#0B0D10]"],
+html.light [class*="bg-[#12151C]"],
+html.light [class*="bg-[#181C25]"],
+html.light [class*="bg-[#171A20]"],
+html.light [class*="bg-[#1D2128]"] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light [class*="border-[#272C36]"],
+html.light [class*="border-white"] {
+  border-color: #E2E8F0 !important;
+}
+
+html.light [class*="text-[#F7F8FA]"],
+html.light [class*="text-[#F8FAFC]"] {
+  color: #0F172A !important;
+}
+
+html.light [class*="text-[#A5ACB8]"],
+html.light [class*="text-[#A1A1AA]"] {
+  color: #334155 !important;
+}
+
+html.light [class*="text-[#707784]"],
+html.light [class*="text-[#71717A]"] {
   color: #64748B !important;
 }
 
@@ -203,16 +180,4 @@ html.light .text-\[\#71717A\] {
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
-}
-
-/* Prefers Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }

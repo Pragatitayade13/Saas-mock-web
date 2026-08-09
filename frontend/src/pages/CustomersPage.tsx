@@ -92,8 +92,8 @@ export const CustomersPage: React.FC = () => {
     try {
       const params: CustomerQueryParams = {
         search: debouncedSearch,
-        status: selectedStatuses.length === 1 ? selectedStatuses[0] : undefined,
-        plan: selectedPlans.length === 1 ? selectedPlans[0] : undefined,
+        status: selectedStatuses.length > 0 ? selectedStatuses.join(',') : undefined,
+        plan: selectedPlans.length > 0 ? selectedPlans.join(',') : undefined,
         location: locationFilter.trim() || undefined,
         page,
         limit,

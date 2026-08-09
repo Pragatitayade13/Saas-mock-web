@@ -53,7 +53,7 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <AppShell>
-      <div className="space-y-6 sm:space-y-8">
+      <div className="space-y-6 sm:space-y-8 text-left">
         {/* Premium Dashboard Hero Header Banner */}
         <Card variant="glass" className="relative overflow-hidden border-slate-200/90 dark:border-white/[0.1] bg-gradient-to-r from-purple-500/10 via-slate-100/90 to-indigo-500/10 dark:from-[#111419]/90 dark:via-[#171A20]/80 dark:to-[#1D2128]/90">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none" />
@@ -61,26 +61,26 @@ export const DashboardPage: React.FC = () => {
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 sm:p-8">
             <div className="space-y-3 max-w-2xl text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30">
-                <Sparkles className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30">
+                <Sparkles className="w-4 h-4" />
                 <span>Nexora SaaS Core v2.4 Active</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#F7F8FA] tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#F7F8FA] tracking-tight font-heading italic">
                 Good morning, Pragati 👋
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-[#A5ACB8] leading-relaxed font-medium">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#A5ACB8] leading-relaxed font-medium">
                 Here is your live revenue velocity, customer expansion rate, and active transaction metrics synced directly from your Go in-memory state engine.
               </p>
 
-              <div className="flex items-center gap-4 text-xs font-semibold text-slate-500 dark:text-[#707784] pt-2">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+              <div className="flex items-center gap-5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-[#707784] pt-2">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4.5 h-4.5 text-emerald-500 dark:text-emerald-400" />
                   <span>Multi-tenant Isolation Enforced</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <TrendingUp className="w-4 h-4 text-[#8B5CF6]" />
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4.5 h-4.5 text-[#8B5CF6]" />
                   <span>Real-time ICM Stream</span>
                 </div>
               </div>
@@ -95,30 +95,30 @@ export const DashboardPage: React.FC = () => {
 
         {/* Dashboard Actions Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-500 dark:text-[#A5ACB8] uppercase tracking-wider">Date Range Filter</span>
-            <div className="w-36">
+          <div className="flex items-center gap-3">
+            <span className="text-xs sm:text-sm font-bold text-slate-600 dark:text-[#A5ACB8] uppercase tracking-wider">Date Range Filter</span>
+            <div className="w-44">
               <Select
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
                 options={[
-                  { label: 'Last 7 Days', value: '7d' },
-                  { label: 'Last 30 Days', value: '30d' },
-                  { label: 'Last 90 Days', value: '90d' },
-                  { label: 'Year to Date', value: 'ytd' },
+                  { label: 'Last 7 Days (Daily)', value: '7d' },
+                  { label: 'Last 30 Days (Weekly)', value: '30d' },
+                  { label: 'Last 90 Days (Quarterly)', value: '90d' },
+                  { label: 'Year to Date (Monthly)', value: 'ytd' },
                 ]}
-                className="text-xs py-1.5"
+                className="text-xs sm:text-sm py-2"
               />
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
             <Button
               variant="secondary"
               size="md"
               onClick={() => loadData(true)}
               isLoading={isRefreshing}
-              leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />}
+              leftIcon={<RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />}
             >
               Sync API
             </Button>
@@ -128,7 +128,7 @@ export const DashboardPage: React.FC = () => {
               size="md"
               onClick={handleResetDemo}
               isLoading={isResetting}
-              leftIcon={<RotateCcw className="w-3.5 h-3.5 text-amber-500" />}
+              leftIcon={<RotateCcw className="w-4 h-4 text-amber-500" />}
             >
               Reset Seed
             </Button>
@@ -136,7 +136,7 @@ export const DashboardPage: React.FC = () => {
             <Button
               variant="primary"
               size="md"
-              leftIcon={<Download className="w-3.5 h-3.5" />}
+              leftIcon={<Download className="w-4 h-4" />}
             >
               Export Report
             </Button>
@@ -147,7 +147,7 @@ export const DashboardPage: React.FC = () => {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-32 rounded-2xl bg-slate-200/60 dark:bg-[#171A20]/60 border border-slate-200 dark:border-white/[0.08] animate-shimmer" />
+              <div key={i} className="h-36 rounded-2xl bg-slate-200/60 dark:bg-[#171A20]/60 border border-slate-200 dark:border-white/[0.08] animate-shimmer" />
             ))}
           </div>
         ) : (
@@ -165,6 +165,7 @@ export const DashboardPage: React.FC = () => {
             <RevenueOverviewChart
               monthlyData={dashboardData.monthlyRevenueChart}
               weeklyData={dashboardData.weeklyRevenueChart}
+              selectedDateRange={dateRange}
             />
           </div>
           <div>

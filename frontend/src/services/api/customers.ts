@@ -174,12 +174,14 @@ export async function fetchCustomers(params?: CustomerQueryParams): Promise<Pagi
 
   // Apply status filter
   if (params?.status && params.status !== 'all') {
-    list = list.filter((c) => c.status.toLowerCase() === params.status?.toLowerCase());
+    const statuses = params.status.toLowerCase().split(',');
+    list = list.filter((c) => statuses.includes(c.status.toLowerCase()));
   }
 
   // Apply plan filter
   if (params?.plan && params.plan !== 'all') {
-    list = list.filter((c) => c.plan.toLowerCase() === params.plan?.toLowerCase());
+    const plans = params.plan.toLowerCase().split(',');
+    list = list.filter((c) => plans.includes(c.plan.toLowerCase()));
   }
 
   // Apply location filter
