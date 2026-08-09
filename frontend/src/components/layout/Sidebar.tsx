@@ -125,7 +125,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Brand Logo Header */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200/90 dark:border-white/[0.08]">
           <Link to="/" className="flex items-center gap-3 overflow-hidden" onClick={onMobileClose}>
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#8B5CF6] to-[#22D3EE] flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-[#8B5CF6]/30 shrink-0">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-[#8B5CF6]/30 shrink-0"
+              style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #22D3EE 100%)' }}
+            >
               N
             </div>
             {!isCollapsed && (
