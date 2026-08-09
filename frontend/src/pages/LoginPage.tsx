@@ -91,17 +91,15 @@ export const LoginPage: React.FC = () => {
   const location = useLocation();
   const { resolvedTheme } = useTheme();
 
-  // Apply saved theme to html on mount (login page respects user theme)
+  // Login page always forces light mode — theme only applies inside the app
   useEffect(() => {
     const root = document.documentElement;
-    if (resolvedTheme === 'light') {
-      root.classList.remove('dark');
-      root.classList.add('light');
-    } else {
-      root.classList.remove('light');
-      root.classList.add('dark');
+    root.classList.remove('dark');
+    root.classList.add('light');
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
     }
-  }, [resolvedTheme]);
+  }, [isAuthenticated, navigate]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -112,12 +110,6 @@ export const LoginPage: React.FC = () => {
   const [passwordTouched, setPasswordTouched] = useState(false);
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
 
   const validateEmail = (val: string) => {
     if (!val.trim()) return 'Email address is required.';
@@ -184,7 +176,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0B0D10] text-slate-900 dark:text-[#F8FAFC] flex flex-col font-body selection:bg-[#8B5CF6]/20 selection:text-[#8B5CF6] overflow-x-hidden relative">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-body selection:bg-[#8B5CF6]/20 selection:text-[#8B5CF6] overflow-x-hidden relative">
       {/* Top Navigation Bar */}
       <header className="h-20 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl sticky top-0 z-40 px-6 lg:px-12 flex items-center justify-between shadow-xs">
         <Link to="/" className="flex items-center gap-3">
