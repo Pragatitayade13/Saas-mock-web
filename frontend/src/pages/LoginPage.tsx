@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../context/ThemeContext';
 import { ApiError } from '../services/api/client';
 import {
   ArrowLeft,
@@ -88,6 +89,19 @@ export const LoginPage: React.FC = () => {
   const { login, isAuthenticated, clearError } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { resolvedTheme } = useTheme();
+
+  // Apply saved theme to html on mount (login page respects user theme)
+  useEffect(() => {
+    const root = document.documentElement;
+    if (resolvedTheme === 'light') {
+      root.classList.remove('dark');
+      root.classList.add('light');
+    } else {
+      root.classList.remove('light');
+      root.classList.add('dark');
+    }
+  }, [resolvedTheme]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -100,8 +114,6 @@ export const LoginPage: React.FC = () => {
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
   useEffect(() => {
-    document.documentElement.classList.remove('light');
-    document.documentElement.classList.add('dark');
     if (isAuthenticated) {
       navigate('/dashboard', { replace: true });
     }
@@ -172,7 +184,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col font-body selection:bg-[#8B5CF6]/20 selection:text-[#8B5CF6] overflow-x-hidden relative">
+    <div className="min-h-screen bg-white dark:bg-[#0B0D10] text-slate-900 dark:text-[#F8FAFC] flex flex-col font-body selection:bg-[#8B5CF6]/20 selection:text-[#8B5CF6] overflow-x-hidden relative">
       {/* Top Navigation Bar */}
       <header className="h-20 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl sticky top-0 z-40 px-6 lg:px-12 flex items-center justify-between shadow-xs">
         <Link to="/" className="flex items-center gap-3">
