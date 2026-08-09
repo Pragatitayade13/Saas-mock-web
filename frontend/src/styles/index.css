@@ -205,3 +205,14 @@ html.light table tr:hover {
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
 }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Landing page nebula orb slow pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}

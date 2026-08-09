@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Hls from 'hls.js';
 import { LiveGlassDashboardPreview } from '../components/landing/LiveGlassDashboardPreview';
 import { InteractiveTechStack } from '../components/landing/InteractiveTechStack';
 import { CoreLayerExplosionAnimation } from '../components/landing/CoreLayerExplosionAnimation';
@@ -20,42 +19,36 @@ import { Card } from '../components/ui/Card';
 import { DemoIndicator } from '../components/layout/DemoIndicator';
 
 export const LandingPage: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Landing Page stays strictly in cinematic dark mode by default
     document.documentElement.classList.remove('light');
     document.documentElement.classList.add('dark');
-
-    const video = videoRef.current;
-    if (!video) return;
-
-    const src = "https://stream.mux.com/8wrHPCX2dC3msyYU9ObwqNdm00u3ViXvOSHUMRYSEe5Q.m3u8";
-
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(src);
-      hls.attachMedia(video);
-      return () => hls.destroy();
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = src;
-    }
   }, []);
 
   return (
     <div className="relative min-h-screen bg-black text-[#F7F8FA] flex flex-col font-body selection:bg-[#8B5CF6]/30 selection:text-[#22D3EE] overflow-x-hidden">
-      {/* Constant Fixed Full-Screen HLS Video Stream Background */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover z-0 opacity-50 pointer-events-none"
-      />
-
-      {/* Persistent Atmospheric Ambient Overlays */}
-      <div className="fixed inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/80 pointer-events-none z-[1]" />
+      {/* Instant Cinematic Animated Gradient Background — zero loading time */}
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 80% 60% at 50% -10%, #1a0a2e 0%, #0B0D10 55%, #000000 100%)',
+      }} />
+      {/* Animated purple nebula orb — top left */}
+      <div className="fixed -top-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none z-0" style={{
+        background: 'radial-gradient(circle, rgba(139,92,246,0.18) 0%, rgba(99,102,241,0.08) 50%, transparent 75%)',
+        animation: 'pulse 8s ease-in-out infinite',
+      }} />
+      {/* Animated cyan nebula orb — bottom right */}
+      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0" style={{
+        background: 'radial-gradient(circle, rgba(34,211,238,0.12) 0%, rgba(99,102,241,0.06) 50%, transparent 75%)',
+        animation: 'pulse 10s ease-in-out infinite 2s',
+      }} />
+      {/* Subtle grid overlay for depth */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.04]" style={{
+        backgroundImage: 'linear-gradient(rgba(139,92,246,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.6) 1px, transparent 1px)',
+        backgroundSize: '60px 60px',
+      }} />
+      {/* Dark gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 pointer-events-none z-[1]" />
 
       {/* Top Header Navigation */}
       <header className="h-20 border-b border-white/[0.08] glass-header sticky top-0 z-40 px-6 lg:px-12 flex items-center justify-between backdrop-blur-xl bg-black/60">
