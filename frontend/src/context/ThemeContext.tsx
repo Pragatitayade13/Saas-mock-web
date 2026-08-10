@@ -19,7 +19,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {
-    const root = document.documentElement;
     localStorage.setItem('nexora_theme', theme);
 
     const updateResolvedTheme = () => {
@@ -30,14 +29,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         active = theme;
       }
       setResolvedTheme(active);
-
-      if (active === 'light') {
-        root.classList.remove('dark');
-        root.classList.add('light');
-      } else {
-        root.classList.remove('light');
-        root.classList.add('dark');
-      }
     };
 
     updateResolvedTheme();

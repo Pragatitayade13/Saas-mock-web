@@ -31,8 +31,18 @@ const liveRevenueData = [
   { name: 'Jul', revenue: 84250, target: 80000 },
 ];
 
+const liveWeeklyVelocityData = [
+  { name: 'W1', revenue: 18400, target: 16000 },
+  { name: 'W2', revenue: 22100, target: 19500 },
+  { name: 'W3', revenue: 26800, target: 24000 },
+  { name: 'W4', revenue: 31500, target: 28000 },
+  { name: 'W5', revenue: 37200, target: 33000 },
+  { name: 'W6', revenue: 43900, target: 39000 },
+];
+
 export const LiveGlassDashboardPreview: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'revenue' | 'expansion'>('revenue');
+  const currentChartData = activeTab === 'revenue' ? liveRevenueData : liveWeeklyVelocityData;
 
   return (
     <div className="relative w-full max-w-5xl mx-auto group">
@@ -143,29 +153,30 @@ export const LiveGlassDashboardPreview: React.FC = () => {
             </div>
           </div>
 
-          <div className="h-56 sm:h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={liveRevenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <div className="h-64 sm:h-72 w-full min-h-[250px] relative">
+            <ResponsiveContainer width="100%" height="100%" minWidth={100} minHeight={220}>
+              <AreaChart key={activeTab} data={currentChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="livePreviewGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.6} />
-                    <stop offset="95%" stopColor="#22D3EE" stopOpacity={0.0} />
+                    <stop offset="95%" stopColor="#22D3EE" stopOpacity={0.05} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={11} tickLine={false} />
+                <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" fontSize={11} tickLine={false} />
                 <YAxis
-                  stroke="rgba(255,255,255,0.4)"
+                  stroke="rgba(255,255,255,0.5)"
                   fontSize={11}
                   tickLine={false}
-                  tickFormatter={(val) => `$${val / 1000}k`}
+                  tickFormatter={(val) => `$${val >= 1000 ? val / 1000 + 'k' : val}`}
                 />
                 <RechartsTooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(0,0,0,0.85)',
-                    borderColor: 'rgba(255,255,255,0.15)',
+                    backgroundColor: 'rgba(15, 15, 25, 0.92)',
+                    borderColor: 'rgba(139, 92, 246, 0.3)',
                     borderRadius: '12px',
                     fontSize: '12px',
                     color: '#FFF',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
                     backdropFilter: 'blur(12px)',
                   }}
                   formatter={(val: any) => [`$${Number(val).toLocaleString()}`, 'ARR']}
@@ -177,6 +188,7 @@ export const LiveGlassDashboardPreview: React.FC = () => {
                   strokeWidth={3}
                   fillOpacity={1}
                   fill="url(#livePreviewGradient)"
+                  isAnimationActive={true}
                 />
               </AreaChart>
             </ResponsiveContainer>

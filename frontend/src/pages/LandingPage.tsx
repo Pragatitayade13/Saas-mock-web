@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Hls from 'hls.js';
 import { LiveGlassDashboardPreview } from '../components/landing/LiveGlassDashboardPreview';
 import { InteractiveTechStack } from '../components/landing/InteractiveTechStack';
 import { CoreLayerExplosionAnimation } from '../components/landing/CoreLayerExplosionAnimation';
@@ -22,42 +21,80 @@ import { DemoIndicator } from '../components/layout/DemoIndicator';
 export const LandingPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Landing page ALWAYS forces dark — even if ThemeContext says light
+  // Landing page ALWAYS forces dark mode — completely isolated from dashboard theme settings
   useEffect(() => {
-    const forceDark = () => {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-    };
-
-    // Force on mount
-    forceDark();
-
-    // Also observe any class changes and re-enforce dark
-    const observer = new MutationObserver(forceDark);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-    return () => observer.disconnect();
+    const root = document.documentElement;
+    root.classList.remove('light');
+    root.classList.add('dark');
   }, []);
 
-  // HLS cinematic video background
+  // Async dynamic HLS cinematic video background load (non-blocking)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const src = 'https://stream.mux.com/8wrHPCX2dC3msyYU9ObwqNdm00u3ViXvOSHUMRYSEe5Q.m3u8';
+    let hlsInstance: any = null;
+    let isCancelled = false;
 
-    if (Hls.isSupported()) {
-      const hls = new Hls({ startLevel: -1 });
-      hls.loadSource(src);
-      hls.attachMedia(video);
-      return () => hls.destroy();
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = src;
-    }
+    const startPlayback = () => {
+      if (video) {
+        video.play().catch((err) => {
+          console.warn('Autoplay prevented or failed:', err);
+        });
+      }
+    };
+
+    // Defer HLS loading asynchronously so DOM renders instantly
+    import('hls.js').then(({ default: Hls }) => {
+      if (isCancelled || !video) return;
+
+      if (Hls.isSupported()) {
+        hlsInstance = new Hls({
+          startLevel: -1,
+          capLevelToPlayerSize: true,
+          enableWorker: true,
+        });
+        hlsInstance.loadSource(src);
+        hlsInstance.attachMedia(video);
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+          startPlayback();
+        });
+        hlsInstance.on(Hls.Events.ERROR, (_event: any, data: any) => {
+          if (data.fatal) {
+            console.warn('HLS video playback error, using visual fallback:', data.type);
+          }
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = src;
+        video.addEventListener('loadedmetadata', startPlayback);
+      } else {
+        startPlayback();
+      }
+    }).catch((err) => {
+      console.warn('HLS module failed to load, falling back to ambient mesh:', err);
+    });
+
+    return () => {
+      isCancelled = true;
+      if (hlsInstance) {
+        hlsInstance.destroy();
+      }
+    };
   }, []);
 
   return (
     <div className="relative min-h-screen bg-black text-[#F7F8FA] flex flex-col font-body selection:bg-[#8B5CF6]/30 selection:text-[#22D3EE] overflow-x-hidden">
+      {/* Dynamic Ambient Background Mesh & Poster Fallback */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <img
+          src="/hero_3d.png"
+          alt="Ambient Background Mesh"
+          className="w-full h-full object-cover opacity-30 mix-blend-screen filter blur-[2px]"
+        />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#8B5CF6]/20 via-[#22D3EE]/15 to-indigo-600/20 rounded-full blur-[120px] animate-pulse-glow" />
+      </div>
+
       {/* Cinematic HLS Video Background */}
       <video
         ref={videoRef}
@@ -65,7 +102,9 @@ export const LandingPage: React.FC = () => {
         loop
         muted
         playsInline
-        className="fixed inset-0 w-full h-full object-cover z-0 opacity-50 pointer-events-none"
+        preload="auto"
+        poster="/hero_3d.png"
+        className="fixed inset-0 w-full h-full object-cover z-0 opacity-60 pointer-events-none"
       />
 
       {/* Atmospheric Overlays */}

@@ -24,6 +24,10 @@ export const PrivacyPolicyPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const root = document.documentElement;
+    root.classList.remove('light');
+    root.classList.add('dark');
+
     const video = videoRef.current;
     if (!video) return;
 
